@@ -40,7 +40,6 @@ abstract class Simulator {
     before();
     var wi = _getWorkitem();
     while (agenda.isNotEmpty && wi.time == currentTime) {
-      print("time is now doing work");
       agenda = agenda.sublist(1);
       wi.action();
       log.add(wi);

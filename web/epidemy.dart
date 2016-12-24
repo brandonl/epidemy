@@ -83,19 +83,15 @@ class EpidemySimulator extends Simulator {
   bool _isAlive(Subject s) => s.state != State.dead;
 
   void _tryKill(Subject s) {
-    print("Try kill $s");
     s.state = (_isAlive(s) && _rand.nextDouble() <= _dieRate) ? State.dead : s.state;
-    print("Results: $s");
   }
 
   void _heal(Subject s) {
-    print("Try heal $s");
     s.state = _isAlive(s) ? State.healthy : s.state;
     s.infected = false;
   }
 
   void _immunize(Subject s) {
-    print("Try immunize $s");
     s.state = _isAlive(s) ? State.immune : s.state;
   }
 
@@ -137,7 +133,6 @@ class EpidemySimulator extends Simulator {
 
       if (!subject.infected && subject.state != State.immune && _rand.nextDouble() <= _transRate) {
         if (_isContagious(subject.row, subject.col)) {
-          print("infecting dude $subject");
           _infect(subject);
         }
       }
@@ -175,14 +170,10 @@ class EpidemySimulator extends Simulator {
     int numHealthy = 0;
     int numSickOrDead = 0;
     int numImmune = 0;
-    int x = 0;
 
     numHealthy += _population.where((s) => s.state == State.healthy).length;
     numSickOrDead += _population.where((s) => s.state == State.sick || s.state == State.dead).length;
     numImmune += _population.where((s) => s.state == State.immune).length;
-    x += _population.where((s) => s.infected == true).length;
-
-    print("$x");
 
     history.add(new Situation(numHealthy, numSickOrDead, numImmune));
   }
